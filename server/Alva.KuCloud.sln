@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DEA4EDD8-0948-43A3-9A50-D657A84D2923}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0553411-CECF-4714-AEA9-624529DA9C64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{263759DB-9C0A-42F5-8618-1877FB2586C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alva.KuCloud.Core", "src\Alva.KuCloud.Core\Alva.KuCloud.Core.csproj", "{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alva.KuCloud.Infrastructure", "src\Alva.KuCloud.Infrastructure\Alva.KuCloud.Infrastructure.csproj", "{06F82E83-575B-4B04-BEB8-799B8A3DF894}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alva.KuCloud.Api", "src\Alva.KuCloud.Api\Alva.KuCloud.Api.csproj", "{5E383CCC-E26B-4801-BBD4-B82A679A8898}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADEE8EAE-E710-424E-B7DA-F7E5932666C6} = {E0553411-CECF-4714-AEA9-624529DA9C64}
+		{06F82E83-575B-4B04-BEB8-799B8A3DF894} = {E0553411-CECF-4714-AEA9-624529DA9C64}
+		{5E383CCC-E26B-4801-BBD4-B82A679A8898} = {E0553411-CECF-4714-AEA9-624529DA9C64}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06F82E83-575B-4B04-BEB8-799B8A3DF894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06F82E83-575B-4B04-BEB8-799B8A3DF894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06F82E83-575B-4B04-BEB8-799B8A3DF894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06F82E83-575B-4B04-BEB8-799B8A3DF894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E383CCC-E26B-4801-BBD4-B82A679A8898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E383CCC-E26B-4801-BBD4-B82A679A8898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E383CCC-E26B-4801-BBD4-B82A679A8898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E383CCC-E26B-4801-BBD4-B82A679A8898}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
