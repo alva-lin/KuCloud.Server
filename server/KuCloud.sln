@@ -9,11 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0553411-CEC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{263759DB-9C0A-42F5-8618-1877FB2586C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alva.KuCloud.Core", "src\Alva.KuCloud.Core\Alva.KuCloud.Core.csproj", "{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.Data", "src\KuCloud.Data\KuCloud.Data.csproj", "{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alva.KuCloud.Infrastructure", "src\Alva.KuCloud.Infrastructure\Alva.KuCloud.Infrastructure.csproj", "{06F82E83-575B-4B04-BEB8-799B8A3DF894}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.Infrastructure", "src\KuCloud.Infrastructure\KuCloud.Infrastructure.csproj", "{06F82E83-575B-4B04-BEB8-799B8A3DF894}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alva.KuCloud.Api", "src\Alva.KuCloud.Api\Alva.KuCloud.Api.csproj", "{5E383CCC-E26B-4801-BBD4-B82A679A8898}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.Api", "src\KuCloud.Api\KuCloud.Api.csproj", "{5E383CCC-E26B-4801-BBD4-B82A679A8898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.DbUpdate", "src\KuCloud.DbUpdate\KuCloud.DbUpdate.csproj", "{8FEB3F72-28AC-4668-A201-58C445116127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,7 @@ Global
 		{ADEE8EAE-E710-424E-B7DA-F7E5932666C6} = {E0553411-CECF-4714-AEA9-624529DA9C64}
 		{06F82E83-575B-4B04-BEB8-799B8A3DF894} = {E0553411-CECF-4714-AEA9-624529DA9C64}
 		{5E383CCC-E26B-4801-BBD4-B82A679A8898} = {E0553411-CECF-4714-AEA9-624529DA9C64}
+		{8FEB3F72-28AC-4668-A201-58C445116127} = {E0553411-CECF-4714-AEA9-624529DA9C64}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ADEE8EAE-E710-424E-B7DA-F7E5932666C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,5 +41,9 @@ Global
 		{5E383CCC-E26B-4801-BBD4-B82A679A8898}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E383CCC-E26B-4801-BBD4-B82A679A8898}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E383CCC-E26B-4801-BBD4-B82A679A8898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FEB3F72-28AC-4668-A201-58C445116127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FEB3F72-28AC-4668-A201-58C445116127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FEB3F72-28AC-4668-A201-58C445116127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FEB3F72-28AC-4668-A201-58C445116127}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

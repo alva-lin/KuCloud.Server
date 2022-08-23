@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Alva.KuCloud.Api.Controllers;
+namespace KuCloud.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
