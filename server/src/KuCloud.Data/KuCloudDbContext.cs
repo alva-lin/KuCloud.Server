@@ -1,5 +1,5 @@
-﻿using KuCloud.Infrastructure.Entities;
-using KuCloud.Data.Models;
+﻿using KuCloud.Data.Models;
+using KuCloud.Infrastructure.Entities;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -35,16 +35,13 @@ public class KuCloudDbContext : DbContext
     #region BeforeSaveChanges
 
     /// <summary>
-    /// 保存前的预操作
+    ///     保存前的预操作
     /// </summary>
-    private void BeforeSaveChanges()
-    {
+    private void BeforeSaveChanges() =>
         AddAuditInfo();
-        SoftDelete();
-    }
 
     /// <summary>
-    /// 填入审计信息
+    ///     填入审计信息
     /// </summary>
     private void AddAuditInfo()
     {
@@ -69,23 +66,6 @@ public class KuCloudDbContext : DbContext
         }
     }
 
-    /// <summary>
-    /// 软删除
-    /// </summary>
-    private void SoftDelete()
-    {
-        var entities = ChangeTracker.Entries<ISoftDeletable>()
-            .Where(entry => entry.State == EntityState.Deleted);
-
-        var utcNow = DateTime.UtcNow;
-
-        foreach (var entity in entities)
-        {
-            entity.Entity.DeletedTime = utcNow;
-            entity.Entity.IsDelete = true;
-        }
-    }
-
     #region SaveChanges
 
     public override int SaveChanges()
@@ -100,7 +80,7 @@ public class KuCloudDbContext : DbContext
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
         BeforeSaveChanges();
         return await base.SaveChangesAsync(cancellationToken);

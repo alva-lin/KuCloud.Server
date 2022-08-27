@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KuCloud.Api</name>
+    </assembly>
+    <members>
+        <member name="M:KuCloud.Api.Controllers.AccountController.Register(KuCloud.Dto.Account.RegisterModel,System.Threading.CancellationToken)">
+            <summary>
+            注册
+            </summary>
+            <param name="model">注册模型</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:KuCloud.Api.Controllers.AuthController.Login(KuCloud.Dto.Account.LoginModel,System.Threading.CancellationToken)">
+            <summary>
+            登录
+            </summary>
+            <param name="model">登录模型</param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KuCloud.Api.Controllers.HealthController">
+            <summary>
+            服务健康检测控制器
+            </summary>
+        </member>
+        <member name="M:KuCloud.Api.Controllers.HealthController.Heartbeat">
+            <summary>
+            心跳检测
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:KuCloud.Api.Controllers.TestController">
+            <summary>
+            测试控制器
+            </summary>
+        </member>
+        <member name="M:KuCloud.Api.Controllers.TestController.Echo(System.String)">
+            <summary>
+            Echo
+            </summary>
+        </member>
+    </members>
+</doc>
