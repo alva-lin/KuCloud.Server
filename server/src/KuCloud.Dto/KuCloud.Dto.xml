@@ -4,5 +4,35 @@
         <name>KuCloud.Dto</name>
     </assembly>
     <members>
+        <member name="T:KuCloud.Dto.Account.LoginModel">
+            <summary>
+                登录账户的数据模型
+            </summary>
+        </member>
+        <member name="P:KuCloud.Dto.Account.LoginModel.Name">
+            <summary>
+                账户名
+            </summary>
+        </member>
+        <member name="P:KuCloud.Dto.Account.LoginModel.Password">
+            <summary>
+                账户密码
+            </summary>
+        </member>
+        <member name="T:KuCloud.Dto.Account.RegisterModel">
+            <summary>
+                注册账户的数据模型
+            </summary>
+        </member>
+        <member name="P:KuCloud.Dto.Account.RegisterModel.Name">
+            <summary>
+                账户名
+            </summary>
+        </member>
+        <member name="P:KuCloud.Dto.Account.RegisterModel.Password">
+            <summary>
+                账户密码
+            </summary>
+        </member>
     </members>
 </doc>

@@ -1,7 +1,6 @@
 ﻿using KuCloud.Infrastructure.Middlewares;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
 
 namespace KuCloud.Infrastructure.Extensions;
 

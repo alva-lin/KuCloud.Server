@@ -13,7 +13,9 @@ public class EntityNotFoundException : BasicException
     {
 
     }
-    
+
     public EntityNotFoundException(Type type, Expression<Func<object, bool>> predicate)
-        : base(ResponseCode.EntityNotFound, $"can't found entity where {predicate}") {}
+        : base(ResponseCode.EntityNotFound, $"can't found entity where {predicate}")
+    {
+    }
 }

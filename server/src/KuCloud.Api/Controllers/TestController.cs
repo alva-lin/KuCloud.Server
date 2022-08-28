@@ -8,15 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace KuCloud.Api.Controllers;
 
 /// <summary>
-/// 测试控制器
+///     测试控制器
 /// </summary>
 public class TestController : BasicController
 {
-    private readonly ILogger<TestController> _logger;
-
     private readonly IAccountService _accountService;
 
     private readonly IAuthService _authService;
+    private readonly ILogger<TestController> _logger;
 
     public TestController(ILogger<TestController> logger, IAuthService authService, IAccountService accountService)
     {
@@ -26,15 +25,14 @@ public class TestController : BasicController
     }
 
     /// <summary>
-    /// Echo
+    ///     Echo
     /// </summary>
     [HttpGet("[action]/{msg}")]
-    public string Echo(string msg)
-    {
-        return msg;
-    }
-    
-    
+    public string Echo(string msg) => msg;
+
+    /// <summary>
+    /// 异常抛出测试接口
+    /// </summary>
     [HttpGet("[action]")]
     public IEnumerable<int> ThrowBasicException(bool isBasic)
     {
@@ -42,6 +40,6 @@ public class TestController : BasicController
         {
             throw new BasicException(ResponseCode.ServiceFail);
         }
-        throw new Exception();
+        throw new();
     }
 }

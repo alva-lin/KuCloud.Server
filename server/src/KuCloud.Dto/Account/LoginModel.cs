@@ -3,9 +3,9 @@
 namespace KuCloud.Dto.Account;
 
 /// <summary>
-///     注册账户的数据模型
+///     登录账户的数据模型
 /// </summary>
-public class RegisterModel
+public class LoginModel
 {
     /// <summary>
     ///     账户名

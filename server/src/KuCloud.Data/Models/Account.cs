@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Globalization;
 
 namespace KuCloud.Data.Models;
@@ -59,7 +58,7 @@ public class Account : BasicEntity<Guid>
 
     public static Account GenerateAccount(string name, string unHashedPassword)
     {
-        var account = new Account()
+        var account = new Account
         {
             Name = name,
             DisplayName = name,

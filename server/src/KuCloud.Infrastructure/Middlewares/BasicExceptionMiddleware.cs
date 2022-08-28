@@ -10,9 +10,8 @@ namespace KuCloud.Infrastructure.Middlewares;
 
 public class BasicExceptionMiddleware
 {
-    private readonly RequestDelegate _next;
-
     private readonly ILogger<BasicExceptionMiddleware> _logger;
+    private readonly RequestDelegate _next;
 
     public BasicExceptionMiddleware(RequestDelegate next, ILogger<BasicExceptionMiddleware> logger)
     {
@@ -33,7 +32,7 @@ public class BasicExceptionMiddleware
             var result = ResponseModel<object>.Error(e.Code, e.Message, e.ErrorInfos);
             var json = JsonSerializer.Serialize(result);
             await context.Response.WriteAsync(json, cancellationToken);
-            
+
             // TODO 错误代码的 CodeMean, Description 标签的内容
             _logger.LogError("{Code} {Message} {Info}",
                 e.Code,
@@ -46,7 +45,7 @@ public class BasicExceptionMiddleware
             var result = ResponseModel<object>.Error(code, e.Message);
             var json = JsonSerializer.Serialize(result);
             await context.Response.WriteAsync(json, cancellationToken);
-            
+
             _logger.LogError("{Code} {Message} {Info}",
                 code,
                 e.Message,

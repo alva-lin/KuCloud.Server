@@ -5,7 +5,6 @@ using KuCloud.Infrastructure.Extensions;
 using KuCloud.Services;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 using System.Reflection;
 
@@ -21,7 +20,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo()
+    options.SwaggerDoc("v1", new()
     {
         Title = "Ku Cloud Api",
         Version = "v1",

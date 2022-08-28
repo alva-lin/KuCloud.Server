@@ -4,7 +4,6 @@ using KuCloud.Services.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace KuCloud.Services;
@@ -42,20 +41,14 @@ public abstract class BasicEntityService<TEntity> : IBasicEntityService<TEntity>
     public virtual Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default) =>
         DbSet.ToListAsync(cancellationToken);
 
-    public Task<List<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
-    {
-        return DbSet.Where(predicate).ToListAsync(cancellationToken: cancellationToken);
-    }
+    public Task<List<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) =>
+        DbSet.Where(predicate).ToListAsync(cancellationToken: cancellationToken);
 
-    public Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
-    {
-        return DbSet.FirstOrDefaultAsync(predicate, cancellationToken);
-    }
+    public Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) =>
+        DbSet.FirstOrDefaultAsync(predicate, cancellationToken);
 
-    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
-    {
-        return await FindAsync(predicate, cancellationToken) ?? throw new EntityNotFoundException(typeof(TEntity), predicate);
-    }
+    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken) =>
+        await FindAsync(predicate, cancellationToken) ?? throw new EntityNotFoundException(typeof(TEntity), predicate);
 
     public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default, bool? saveNow = null)
     {

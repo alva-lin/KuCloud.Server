@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>KuCloud.Dto.xml</DocumentationFile>
-      <NoWarn>1701;1702;159</NoWarn>
+        <DocumentationFile>KuCloud.Dto.xml</DocumentationFile>
+        <NoWarn>1701;1702;159</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DocumentationFile>KuCloud.Dto.xml</DocumentationFile>
-      <NoWarn>1701;1702;1591</NoWarn>
+        <DocumentationFile>KuCloud.Dto.xml</DocumentationFile>
+        <NoWarn>1701;1702;1591</NoWarn>
     </PropertyGroup>
 
 </Project>

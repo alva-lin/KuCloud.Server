@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\KuCloud.Data\KuCloud.Data.csproj" />
-        <ProjectReference Include="..\KuCloud.Dto\KuCloud.Dto.csproj" />
-        <ProjectReference Include="..\KuCloud.Infrastructure\KuCloud.Infrastructure.csproj" />
+        <ProjectReference Include="..\KuCloud.Data\KuCloud.Data.csproj"/>
+        <ProjectReference Include="..\KuCloud.Dto\KuCloud.Dto.csproj"/>
+        <ProjectReference Include="..\KuCloud.Infrastructure\KuCloud.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8"/>
     </ItemGroup>
 
 </Project>

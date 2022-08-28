@@ -6,5 +6,4 @@ namespace KuCloud.Infrastructure.Common;
 [Route("[controller]")]
 public class BasicController : ControllerBase
 {
-    
 }

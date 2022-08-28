@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KuCloud.Api.Controllers;
 
 /// <summary>
-/// 服务健康检测控制器
+///     服务健康检测控制器
 /// </summary>
 public class HealthController : BasicController
 {
@@ -17,7 +17,7 @@ public class HealthController : BasicController
     }
 
     /// <summary>
-    /// 心跳检测
+    ///     心跳检测
     /// </summary>
     /// <returns></returns>
     [HttpGet("[action]")]

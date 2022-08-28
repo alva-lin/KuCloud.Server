@@ -1,11 +1,8 @@
-﻿using KuCloud.Data.Models;
-using KuCloud.Infrastructure.Attributes;
-using KuCloud.Infrastructure.Entities;
+﻿using KuCloud.Infrastructure.Attributes;
 using KuCloud.Infrastructure.Enums;
 using KuCloud.Services.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using System.Reflection;
 
@@ -14,7 +11,7 @@ namespace KuCloud.Core.Extensions;
 public static class ServiceExtension
 {
     /// <summary>
-    /// 根据 <see cref="LifeScopeAttribute"/> 来注册服务
+    ///     根据 <see cref="LifeScopeAttribute" /> 来注册服务
     /// </summary>
     public static IServiceCollection AddKuCloudServiceByLifeScope(this IServiceCollection services, params Assembly[] assemblys)
     {

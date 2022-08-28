@@ -17,7 +17,7 @@ public class ResponseWrapperFilter : IAsyncResultFilter
         {
             context.Result = new ObjectResult(ResponseModel<object?>.Success(VoidObject.Instance));
         }
-        
+
         await next();
     }
 }

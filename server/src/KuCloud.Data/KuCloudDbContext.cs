@@ -4,6 +4,7 @@ using KuCloud.Infrastructure.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
+#pragma warning disable CS8625
 #pragma warning disable CS8618
 
 namespace KuCloud.Data;

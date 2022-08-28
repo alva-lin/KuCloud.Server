@@ -2,10 +2,11 @@
 
 namespace KuCloud.Infrastructure.Common;
 
-public static partial class ResponseCode
+public static class ResponseCode
 {
     [Description("Success")]
-    public static readonly int Success  = 0;
+    public static readonly int Success = 0;
+
     #region 系统内部错误
 
     [Description("internal system error")]
@@ -39,12 +40,12 @@ public static partial class ResponseCode
 
     [Description("entity not found")]
     public static readonly int EntityNotFound = 30201;
-    
+
     [Description("account has been existed")]
     public static readonly int AccountHasBeenExisted = 30301;
-    
+
     [Description("account or password error")]
     public static readonly int AccountOrPasswordError = 30302;
-    
+
     #endregion
 }

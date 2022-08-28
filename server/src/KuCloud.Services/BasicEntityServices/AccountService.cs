@@ -5,15 +5,10 @@ using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Attributes;
 using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
-using KuCloud.Infrastructure.Helpers;
 using KuCloud.Services.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-
-using System.Globalization;
-
-using Random = System.Random;
 
 namespace KuCloud.Services;
 
@@ -35,7 +30,7 @@ public class AccountService : BasicEntityService<Account, Guid>, IAccountService
         {
             throw new AccountException(ResponseCode.AccountHasBeenExisted);
         }
-        
+
         account = Account.GenerateAccount(model.Name, model.Password);
         await AddAsync(account, cancellationToken);
         _logger.LogInformation("a new account register: {Name}", account.Name);
