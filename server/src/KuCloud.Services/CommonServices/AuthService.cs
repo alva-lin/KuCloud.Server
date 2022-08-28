@@ -1,7 +1,7 @@
-﻿using KuCloud.Core.Enums;
-using KuCloud.Core.Exceptions;
+﻿using KuCloud.Core.Exceptions;
 using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Attributes;
+using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
 using KuCloud.Infrastructure.Helpers;
 using KuCloud.Services.Abstractions;
@@ -24,12 +24,12 @@ public class AuthService : IAuthService
         var account = await _accountService.FindAsync(entity => entity.Name == model.Name, cancellationToken);
         if (account == null)
         {
-            throw new AccountException(KuCloudErrorCode.AccountOrPasswordError);
+            throw new AccountException(ResponseCode.AccountOrPasswordError);
         }
 
         if (!account.CheckPassword(model.Password))
         {
-            throw new AccountException(KuCloudErrorCode.AccountOrPasswordError);
+            throw new AccountException(ResponseCode.AccountOrPasswordError);
         }
 
         return "Login Success";

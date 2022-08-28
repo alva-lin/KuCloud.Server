@@ -1,4 +1,5 @@
 ﻿using KuCloud.Infrastructure.Common;
+using KuCloud.Infrastructure.Exceptions;
 using KuCloud.Services.Abstractions;
 using KuCloud.Services.Abstractions.CommonServices;
 
@@ -31,5 +32,16 @@ public class TestController : BasicController
     public string Echo(string msg)
     {
         return msg;
+    }
+    
+    
+    [HttpGet("[action]")]
+    public IEnumerable<int> ThrowBasicException(bool isBasic)
+    {
+        if (isBasic)
+        {
+            throw new BasicException(ResponseCode.ServiceFail);
+        }
+        throw new Exception();
     }
 }

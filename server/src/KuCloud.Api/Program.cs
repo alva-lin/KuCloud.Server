@@ -1,7 +1,7 @@
 using KuCloud.Core.Extensions;
 using KuCloud.Data;
-using KuCloud.Data.Models;
 using KuCloud.Infrastructure.Entities;
+using KuCloud.Infrastructure.Extensions;
 using KuCloud.Services;
 
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.AddResponseWrapperFilter().AddModelValidFilter();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -24,8 +27,8 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Description = "Ku Cloud 服务接口"
     });
-    
-    var xmlFile =  $"{typeof(Program).Assembly.GetName().Name}.xml";
+
+    var xmlFile = $"{typeof(Program).Assembly.GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath);
 });
@@ -45,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseBasicException();
 
 app.UseAuthorization();
 

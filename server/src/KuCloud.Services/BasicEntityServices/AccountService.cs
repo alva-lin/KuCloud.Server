@@ -1,9 +1,9 @@
-﻿using KuCloud.Core.Enums;
-using KuCloud.Core.Exceptions;
+﻿using KuCloud.Core.Exceptions;
 using KuCloud.Data;
 using KuCloud.Data.Models;
 using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Attributes;
+using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
 using KuCloud.Infrastructure.Helpers;
 using KuCloud.Services.Abstractions;
@@ -33,7 +33,7 @@ public class AccountService : BasicEntityService<Account, Guid>, IAccountService
         var account = await DbSet.FirstOrDefaultAsync(entity => entity.Name == model.Name, cancellationToken);
         if (account is not null)
         {
-            throw new AccountException(KuCloudErrorCode.AccountHasBeenExisted);
+            throw new AccountException(ResponseCode.AccountHasBeenExisted);
         }
         
         account = Account.GenerateAccount(model.Name, model.Password);
