@@ -1,8 +1,6 @@
-using KuCloud.Core.Extensions;
 using KuCloud.Data;
-using KuCloud.Infrastructure.Entities;
 using KuCloud.Infrastructure.Extensions;
-using KuCloud.Services;
+using KuCloud.Infrastructure.Options;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -27,12 +25,22 @@ builder.Services.AddSwaggerGen(options =>
         Description = "Ku Cloud 服务接口"
     });
 
-    var xmlFile = $"{typeof(Program).Assembly.GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    options.IncludeXmlComments(xmlPath);
+    var basePath = Directory.GetParent(Environment.CurrentDirectory);
+    if (basePath is { Exists: true })
+    {
+        var currentAssembly = Assembly.GetExecutingAssembly();
+        var xmlDocs = currentAssembly.GetReferencedAssemblies()
+            .Union(new[] { currentAssembly.GetName() })
+            .Select(a => Path.Combine(basePath.FullName, a.Name!, $"{a.Name}.xml"))
+            .Where(File.Exists)
+            .ToArray();
+        Array.ForEach(xmlDocs, s => options.IncludeXmlComments(s));
+    }
 });
 
-builder.Services.AddKuCloudServiceByLifeScope(Assembly.GetAssembly(typeof(BasicEntityService<BasicEntity<int>, int>))!);
+builder.Services.Configure<IBasicOption>(builder.Configuration.GetSection(""));
+builder.Services.AddKuCloudServiceByLifeScope();
+builder.Services.AddBasicOptions(configuration);
 
 builder.Services.AddDbContext<KuCloudDbContext>(optionsBuilder =>
     optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud")));

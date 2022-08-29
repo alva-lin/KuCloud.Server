@@ -1,26 +1,35 @@
 ﻿using KuCloud.Infrastructure.Attributes;
+using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
-using KuCloud.Services.Abstractions;
+using KuCloud.Infrastructure.Options;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using System.Reflection;
 
-namespace KuCloud.Core.Extensions;
+namespace KuCloud.Infrastructure.Extensions;
 
 public static class ServiceExtension
 {
     /// <summary>
+    /// 所有加载的程序集
+    /// </summary>
+    private static Assembly[] AllAssemblies => AppDomain.CurrentDomain.GetAssemblies();
+
+    private static Type[] AllTypes => AllAssemblies.SelectMany(assembly => assembly.GetTypes()).ToArray();
+
+    private static Type[] AllNormalTypes => AllTypes.Where(type => type.IsClass && !type.IsGenericType && !type.IsAbstract).ToArray();
+
+    /// <summary>
     ///     根据 <see cref="LifeScopeAttribute" /> 来注册服务
     /// </summary>
-    public static IServiceCollection AddKuCloudServiceByLifeScope(this IServiceCollection services, params Assembly[] assemblys)
+    public static IServiceCollection AddKuCloudServiceByLifeScope(this IServiceCollection services)
     {
-        // TODO 遍历注册
-        // var assemblys = new[] { implementAssembly };
-        var types = assemblys.SelectMany(assembly => assembly.GetTypes())
-            .Where(type => type.IsClass && !type.IsGenericType && !type.IsAbstract &&
+        var types = AllNormalTypes
+            .Where(type =>
                 type.Name.EndsWith("Service") &&
-                type.GetInterface(nameof(IKuCloudService)) != null)
+                type.GetInterface(nameof(IBasicService)) != null)
             .ToList();
 
         foreach (var type in types)
@@ -59,6 +68,25 @@ public static class ServiceExtension
                 }
             }
         }
+
+        return services;
+    }
+
+    public static IServiceCollection AddBasicOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        var types = AllNormalTypes
+            .Where(type =>
+                type.Name.EndsWith("Option") &&
+                type.GetInterface(nameof(IBasicOption)) != null)
+            .ToList();
+
+        var method = typeof(OptionsConfigurationServiceCollectionExtensions).GetMethod("Configure", new[] { typeof(IServiceCollection), typeof(IConfiguration) })!;
+        foreach (var type in types)
+        {
+            var genericMethod = method.MakeGenericMethod(type);
+            genericMethod.Invoke(null, new object[] { services, configuration.GetSection(type.Name) });
+        }
+        // services.Configure<IBasicOption>(configuration);
 
         return services;
     }

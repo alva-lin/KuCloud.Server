@@ -1,4 +1,5 @@
-﻿using KuCloud.Infrastructure.Entities;
+﻿using KuCloud.Infrastructure.Common;
+using KuCloud.Infrastructure.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace KuCloud.Services.Abstractions;
 
-public interface IBasicEntityService<TEntity> : IKuCloudService where TEntity : class, IBasicEntity
+public interface IBasicEntityService<TEntity> : IBasicService where TEntity : class, IBasicEntity
 {
     public DbContext DbContext { get; }
 

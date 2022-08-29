@@ -1,9 +1,11 @@
 ﻿using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Exceptions;
+using KuCloud.Infrastructure.Options;
 using KuCloud.Services.Abstractions;
 using KuCloud.Services.Abstractions.CommonServices;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace KuCloud.Api.Controllers;
 
@@ -17,11 +19,14 @@ public class TestController : BasicController
     private readonly IAuthService _authService;
     private readonly ILogger<TestController> _logger;
 
-    public TestController(ILogger<TestController> logger, IAuthService authService, IAccountService accountService)
+    private readonly JwtOption _jwtOption;
+
+    public TestController(ILogger<TestController> logger, IAuthService authService, IAccountService accountService, IOptions<JwtOption> jwtOption)
     {
         _logger = logger;
         _authService = authService;
         _accountService = accountService;
+        _jwtOption = jwtOption.Value;
     }
 
     /// <summary>
@@ -41,5 +46,11 @@ public class TestController : BasicController
             throw new BasicException(ResponseCode.ServiceFail);
         }
         throw new();
+    }
+
+    [HttpGet("[action]")]
+    public JwtOption GetOption()
+    {
+        return _jwtOption;
     }
 }
