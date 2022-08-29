@@ -3,10 +3,12 @@ using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
 using KuCloud.Infrastructure.Options;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using System.Reflection;
+// ReSharper disable UnusedMethodReturnValue.Global
 
 namespace KuCloud.Infrastructure.Extensions;
 
@@ -86,7 +88,16 @@ public static class ServiceExtension
             var genericMethod = method.MakeGenericMethod(type);
             genericMethod.Invoke(null, new object[] { services, configuration.GetSection(type.Name) });
         }
-        // services.Configure<IBasicOption>(configuration);
+
+        return services;
+    }
+
+    public static IServiceCollection AddJwtBearer(this IServiceCollection services)
+    {
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
+
+        services.ConfigureOptions<ConfigureJwtBearerOptions>();
 
         return services;
     }

@@ -4,6 +4,7 @@ using KuCloud.Infrastructure.Options;
 using KuCloud.Services.Abstractions;
 using KuCloud.Services.Abstractions.CommonServices;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -52,5 +53,12 @@ public class TestController : BasicController
     public JwtOption GetOption()
     {
         return _jwtOption;
+    }
+
+    [Authorize]
+    [HttpGet("[action]")]
+    public ActionResult NeedLogin()
+    {
+        return Ok();
     }
 }

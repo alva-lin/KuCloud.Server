@@ -2,6 +2,7 @@
 using KuCloud.Infrastructure.Common;
 using KuCloud.Services;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuCloud.Api.Controllers;
@@ -23,6 +24,7 @@ public class AccountController : BasicController
     /// </summary>
     /// <param name="model">注册模型</param>
     /// <param name="cancellationToken"></param>
+    [AllowAnonymous]
     [HttpPost("[action]")]
     public async Task Register(RegisterModel model, CancellationToken cancellationToken) =>
         await _accountService.Register(model, cancellationToken);

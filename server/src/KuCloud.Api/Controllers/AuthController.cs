@@ -2,6 +2,7 @@
 using KuCloud.Infrastructure.Common;
 using KuCloud.Services.Abstractions.CommonServices;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KuCloud.Api.Controllers;
@@ -24,6 +25,7 @@ public class AuthController : BasicController
     /// <param name="model">登录模型</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [AllowAnonymous]
     [HttpPost("[action]")]
     public Task<string> Login(LoginModel model, CancellationToken cancellationToken) =>
         _authService.Login(model, cancellationToken);

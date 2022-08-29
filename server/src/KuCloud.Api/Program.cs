@@ -2,7 +2,9 @@ using KuCloud.Data;
 using KuCloud.Infrastructure.Extensions;
 using KuCloud.Infrastructure.Options;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 using System.Reflection;
 
@@ -37,10 +39,9 @@ builder.Services.AddSwaggerGen(options =>
         Array.ForEach(xmlDocs, s => options.IncludeXmlComments(s));
     }
 });
-
-builder.Services.Configure<IBasicOption>(builder.Configuration.GetSection(""));
 builder.Services.AddKuCloudServiceByLifeScope();
 builder.Services.AddBasicOptions(configuration);
+builder.Services.AddJwtBearer();
 
 builder.Services.AddDbContext<KuCloudDbContext>(optionsBuilder =>
     optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud")));
@@ -58,6 +59,7 @@ app.UseHttpsRedirection();
 
 app.UseBasicException();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
