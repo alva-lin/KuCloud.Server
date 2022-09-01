@@ -26,11 +26,13 @@ public abstract class BasicEntityService<TEntity> : IBasicEntityService<TEntity>
 
     /// <summary>
     ///     根据传入的 saveNow 值来判断立刻保存
+    ///     <br/>
+    ///     在释放时，会自动执行一次 SaveChangesAsync(saveNow: true)
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <param name="saveNow">默认值为 true, 如果传一个空值，那么会根据 this.SaveNow 来判断是否立刻保存</param>
     /// <returns>受影响的实体数量</returns>
-    public virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default, bool? saveNow = null)
+    protected virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default, bool? saveNow = null)
     {
         if (saveNow ?? SaveNow)
         {

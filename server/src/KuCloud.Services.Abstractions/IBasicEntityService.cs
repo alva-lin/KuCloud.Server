@@ -16,14 +16,6 @@ public interface IBasicEntityService<TEntity> : IBasicService where TEntity : cl
 
     public bool SaveNow { get; set; }
 
-    /// <summary>
-    ///     根据传入的 saveNow 值来判断立刻保存
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <param name="saveNow">默认值为 true, 如果传一个空值，那么会根据 this.SaveNow 来判断是否立刻保存</param>
-    /// <returns>受影响的实体数量</returns>
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken, bool? saveNow = true);
-
     public Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 
     public Task<List<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
