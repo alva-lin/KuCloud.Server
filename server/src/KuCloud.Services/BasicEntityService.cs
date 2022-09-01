@@ -3,6 +3,7 @@ using KuCloud.Infrastructure.Entities;
 using KuCloud.Services.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 using System.Linq.Expressions;
 
@@ -55,18 +56,18 @@ public abstract class BasicEntityService<TEntity> : IBasicEntityService<TEntity>
     public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default) =>
         await FindAsync(predicate, cancellationToken) ?? throw new EntityNotFoundException(typeof(TEntity), predicate);
 
-    public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default, bool? saveNow = false)
+    public virtual async Task<EntityEntry<TEntity>> AddAsync(TEntity entity, CancellationToken cancellationToken = default, bool? saveNow = false)
     {
         var entry = await DbSet.AddAsync(entity, cancellationToken);
         await SaveChangesAsync(cancellationToken, saveNow);
-        return entry.Entity;
+        return entry;
     }
 
-    public virtual async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default, bool? saveNow = false)
+    public virtual async Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default, bool? saveNow = false)
     {
         var entry = DbSet.Update(entity);
         await SaveChangesAsync(cancellationToken, saveNow);
-        return entry.Entity;
+        return entry;
     }
 
     public virtual async Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default, bool? saveNow = false)

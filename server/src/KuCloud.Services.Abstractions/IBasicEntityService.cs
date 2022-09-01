@@ -2,6 +2,7 @@
 using KuCloud.Infrastructure.Entities;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 using System.Linq.Expressions;
 
@@ -31,9 +32,9 @@ public interface IBasicEntityService<TEntity> : IBasicService where TEntity : cl
 
     public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
 
-    public Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken, bool? saveNow);
+    public Task<EntityEntry<TEntity>> AddAsync(TEntity entity, CancellationToken cancellationToken, bool? saveNow);
 
-    public Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool? saveNow);
+    public Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool? saveNow);
 
     public Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool? saveNow);
 
