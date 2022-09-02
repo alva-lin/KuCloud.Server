@@ -26,9 +26,9 @@ public interface IBasicEntityService<TEntity> : IBasicService where TEntity : cl
 
     public Task<EntityEntry<TEntity>> AddAsync(TEntity entity, CancellationToken cancellationToken, bool? saveNow);
 
-    public Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool? saveNow);
+    public Task<EntityEntry<TEntity>> UpdateOrAddAsync(TEntity entity, CancellationToken cancellationToken, bool? saveNow);
 
-    public Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool? saveNow);
+    public Task UpdateOrAddAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool? saveNow);
 
     public Task DeleteAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool? saveNow);
 

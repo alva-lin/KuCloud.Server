@@ -18,9 +18,9 @@ public abstract class BasicEntityService<TEntity> : IBasicEntityService<TEntity>
         SaveNow = true;
     }
 
-    public DbContext DbContext { get; set; }
+    public DbContext DbContext { get; }
 
-    public DbSet<TEntity> DbSet { get; set; }
+    public DbSet<TEntity> DbSet { get; }
 
     public bool SaveNow { get; set; }
 
@@ -65,14 +65,14 @@ public abstract class BasicEntityService<TEntity> : IBasicEntityService<TEntity>
         return entry;
     }
 
-    public virtual async Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default, bool? saveNow = false)
+    public virtual async Task<EntityEntry<TEntity>> UpdateOrAddAsync(TEntity entity, CancellationToken cancellationToken = default, bool? saveNow = false)
     {
         var entry = DbSet.Update(entity);
         await SaveChangesAsync(cancellationToken, saveNow);
         return entry;
     }
 
-    public virtual async Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default, bool? saveNow = false)
+    public virtual async Task UpdateOrAddAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default, bool? saveNow = false)
     {
         DbSet.UpdateRange(entities);
         await SaveChangesAsync(cancellationToken, saveNow);

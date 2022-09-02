@@ -4,6 +4,7 @@ using KuCloud.Data.Models;
 using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Attributes;
 using KuCloud.Infrastructure.Common;
+using KuCloud.Infrastructure.Entities;
 using KuCloud.Infrastructure.Enums;
 using KuCloud.Services.Abstractions;
 
@@ -32,7 +33,7 @@ public class AccountService : BasicEntityService<Account, Guid>, IAccountService
         }
 
         account = Account.GenerateAccount(model.Name, model.Password);
-        await AddAsync(account, cancellationToken);
+        await UpdateOrAddAsync(account, cancellationToken);
         _logger.LogInformation("a new account register: {Name}", account.Name);
     }
 }
