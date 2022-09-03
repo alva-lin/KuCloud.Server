@@ -31,7 +31,7 @@ public class AuthService : IAuthService
 
     public async Task<string> Login(LoginModel model, CancellationToken cancellationToken = default)
     {
-        var account = await _accountService.FindAsync(entity => entity.Name == model.Name, cancellationToken);
+        var account = await _accountService.FindAsync(entity => entity.Name == model.Account, cancellationToken);
         if (account == null)
         {
             throw new AccountException(ResponseCode.AccountOrPasswordError);
