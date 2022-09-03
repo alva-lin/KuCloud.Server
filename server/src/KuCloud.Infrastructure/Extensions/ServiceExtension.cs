@@ -6,6 +6,7 @@ using KuCloud.Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 using System.Reflection;
 // ReSharper disable UnusedMethodReturnValue.Global
@@ -98,6 +99,22 @@ public static class ServiceExtension
             .AddJwtBearer();
 
         services.ConfigureOptions<ConfigureJwtBearerOptions>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCorsSetting(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            var corsOption = serviceProvider!.GetRequiredService<IOptions<CorsOption>>().Value;
+            
+            options.AddPolicy("Develop", builder =>
+            {
+                builder.WithOrigins(corsOption.AllowOrigins);
+            });
+        });
 
         return services;
     }

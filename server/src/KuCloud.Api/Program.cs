@@ -42,6 +42,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddKuCloudServiceByLifeScope();
 builder.Services.AddBasicOptions(configuration);
 builder.Services.AddJwtBearer();
+builder.Services.AddCorsSetting();
 
 builder.Services.AddDbContext<KuCloudDbContext>(optionsBuilder =>
     optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud")));
@@ -58,6 +59,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseBasicException();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
