@@ -5,16 +5,17 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/Alva.KuCloud.Api/Alva.KuCloud.Api.csproj", "Alva.KuCloud.Api/"]
-RUN dotnet restore "src/Alva.KuCloud.Api/Alva.KuCloud.Api.csproj"
+COPY  ["src/", "."]
+#COPY ["src/KuCloud.Api/KuCloud.Api.csproj", "KuCloud.Api/"]
+RUN dotnet restore "KuCloud.Api/KuCloud.Api.csproj"
 COPY . .
-WORKDIR "/src/Alva.KuCloud.Api"
-RUN dotnet build "Alva.KuCloud.Api.csproj" -c Release -o /app/build
+WORKDIR "/src/KuCloud.Api"
+RUN dotnet build "KuCloud.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Alva.KuCloud.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "KuCloud.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Alva.KuCloud.Api.dll"]
+ENTRYPOINT ["dotnet", "KuCloud.Api.dll"]
