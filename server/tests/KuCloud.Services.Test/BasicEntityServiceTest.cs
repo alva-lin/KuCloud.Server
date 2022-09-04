@@ -191,10 +191,4 @@ public class BasicEntityServiceTest
         // Assert
         Assert.Equal(count + 2, newCount);
     }
-
-    public async Task DeleteAsync_Test()
-    {
-        // Arrange
-        
-    }
 }
