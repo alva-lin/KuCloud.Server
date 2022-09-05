@@ -11,11 +11,11 @@ workflows:
           context: ALVA
           requires: 
             - clone
-          docker-username: REGISTRY_USER 
-          docker-password: REGISTRY_PWD 
+          docker-username: $REGISTRY_USER 
+          docker-password: $REGISTRY_PWD 
           image: ku-cloud-serve 
           path: src/KuCloud.Api 
-          registry: REGISTRY_URL 
+          registry: $REGISTRY_URL 
           tag: latest 
 jobs:
   clone:
