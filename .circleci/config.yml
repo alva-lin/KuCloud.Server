@@ -25,3 +25,9 @@ jobs:
       - github-cli/setup:
           token: GITHUB_TOKEN
       - github-cli/clone
+      - run:
+          echo $REGISTRY_URL
+      - run:
+          echo $REGISTRY_USER
+      - run:
+          echo $REGISTRY_PWD
