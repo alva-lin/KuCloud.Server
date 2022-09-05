@@ -16,6 +16,7 @@ workflows:
           image: asjun/ku-cloud-service
           path: src/KuCloud.Api
           tag: latest 
+          remote-docker-dlc: true 
 jobs:
   clone:
     docker:
