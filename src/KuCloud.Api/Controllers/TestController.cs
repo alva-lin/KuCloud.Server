@@ -28,6 +28,12 @@ public class TestController : BasicController
         _authService = authService;
         _accountService = accountService;
         _jwtOption = jwtOption.Value;
+
+#if DEBUG
+        ;
+#else
+        throw new BasicException(ResponseCode.ServiceFail, "无法请求测试环境专属接口");
+#endif
     }
 
     /// <summary>
@@ -47,18 +53,5 @@ public class TestController : BasicController
             throw new BasicException(ResponseCode.ServiceFail);
         }
         throw new();
-    }
-
-    [HttpGet("[action]")]
-    public JwtOption GetOption()
-    {
-        return _jwtOption;
-    }
-
-    [Authorize]
-    [HttpGet("[action]")]
-    public ActionResult NeedLogin()
-    {
-        return Ok();
     }
 }
