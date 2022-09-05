@@ -1,10 +1,15 @@
 version: 2.1
 orbs:
   docker: circleci/docker@2.1.3
+  github-cli: circleci/github-cli@2.1.0
 jobs:
+  clone:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - github-cli/clone
   build:
     docker:
-      # replace with your preferred image
       - image: cimg/base:stable
     steps:
       - docker/build:
@@ -14,7 +19,6 @@ jobs:
           tag: latest 
   push:
     docker:
-      # replace with your preferred image
       - image: cimg/base:stable
     steps:
       - docker/push:
@@ -24,5 +28,6 @@ jobs:
 workflows:
   example-workflow:
     jobs:
+      - clone
       - build
       - push
