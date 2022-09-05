@@ -13,7 +13,7 @@ workflows:
             - clone
           docker-username: REGISTRY_USER 
           docker-password: REGISTRY_PWD 
-          image: asjun/ku-cloud-service
+          image: asjun/ku-cloud-api
           path: src/KuCloud.Api
           tag: latest 
           remote-docker-dlc: true 
