@@ -15,7 +15,7 @@ workflows:
           docker-password: REGISTRY_PWD 
           image: ku-cloud-serve 
           path: src/KuCloud.Api 
-          registry: https://registry.asjun.net
+          registry: registry.asjun.net
           tag: latest 
 jobs:
   clone:
