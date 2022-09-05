@@ -1,8 +1,28 @@
-version: 2
+version: 2.1
+orbs:
+  docker: circleci/docker@2.1.3
 jobs:
   build:
     docker:
-      - image: circleci/node:10
+      # replace with your preferred image
+      - image: cimg/base:stable
     steps:
-      - run: echo "A first hello"
-      - run: npm -v
+      - docker/build:
+          dockerfile: Dockerfile 
+          image: ku-cloud-serve 
+          path: ./src/KuCloud.Api
+          tag: latest 
+  push:
+    docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
+    steps:
+      - docker/push:
+          image: ku-cloud-serve 
+          registry: $REGISTRY_URL 
+          tag: latest 
+workflows:
+  example-workflow:
+    jobs:
+      - build
+      - push
