@@ -7,7 +7,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - github-cli/install
+      - github-cli/setup
       - github-cli/clone
   build:
     docker:
