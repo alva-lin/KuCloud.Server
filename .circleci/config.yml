@@ -3,16 +3,11 @@ orbs:
   docker: circleci/docker@2.1.3
   github-cli: circleci/github-cli@2.1.0
 jobs:
-  gh-install:
-    docker:
-      # replace with your preferred image
-      - image: cimg/base:stable
-    steps:
-      - github-cli/install
   clone:
     docker:
       - image: cimg/base:stable
     steps:
+      - github-cli/install
       - github-cli/clone
   build:
     docker:
@@ -34,10 +29,7 @@ jobs:
 workflows:
   example-workflow:
     jobs:
-      - gh-install
-      - clone:
-          requires:
-            - gh-install
+      - clone
       - build:
           requires:
             - clone
