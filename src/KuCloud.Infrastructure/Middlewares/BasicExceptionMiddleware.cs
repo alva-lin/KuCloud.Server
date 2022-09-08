@@ -28,10 +28,8 @@ public class BasicExceptionMiddleware
         }
         catch (BasicException e)
         {
-            // TODO Json 序列化相关内容
             var result = ResponseModel<object>.Error(e.Code, e.Message, e.ErrorInfos);
-            var json = JsonSerializer.Serialize(result);
-            await context.Response.WriteAsync(json, cancellationToken);
+            await context.Response.WriteAsJsonAsync(result, cancellationToken);
 
             // TODO 错误代码的 CodeMean, Description 标签的内容
             _logger.LogError("{Code} {Message} {Info}",
@@ -43,8 +41,7 @@ public class BasicExceptionMiddleware
         {
             var code = ResponseCode.ServiceError;
             var result = ResponseModel<object>.Error(code, e.Message);
-            var json = JsonSerializer.Serialize(result);
-            await context.Response.WriteAsync(json, cancellationToken);
+            await context.Response.WriteAsJsonAsync(result, cancellationToken);
 
             _logger.LogError("{Code} {Message} {Info}",
                 code,
