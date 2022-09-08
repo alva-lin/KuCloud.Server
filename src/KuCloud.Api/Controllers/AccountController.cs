@@ -1,6 +1,6 @@
 ﻿using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Common;
-using KuCloud.Services;
+using KuCloud.Services.Abstractions;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +12,9 @@ namespace KuCloud.Api.Controllers;
 /// </summary>
 public class AccountController : BasicController
 {
-    private readonly AccountService _accountService;
+    private readonly IAccountService _accountService;
 
-    public AccountController(AccountService accountService)
+    public AccountController(IAccountService accountService)
     {
         _accountService = accountService;
     }
