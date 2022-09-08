@@ -26,13 +26,13 @@ public class AccountService : BasicEntityService<Account, Guid>, IAccountService
 
     public async Task Register(RegisterModel model, CancellationToken cancellationToken = default)
     {
-        var account = await DbSet.FirstOrDefaultAsync(entity => entity.Name == model.Name, cancellationToken);
+        var account = await DbSet.FirstOrDefaultAsync(entity => entity.Name == model.Account, cancellationToken);
         if (account is not null)
         {
             throw new AccountException(ResponseCode.AccountHasBeenExisted);
         }
 
-        account = Account.GenerateAccount(model.Name, model.Password);
+        account = Account.GenerateAccount(model.Account, model.Password);
         await UpdateOrAddAsync(account, cancellationToken);
         _logger.LogInformation("a new account register: {Name}", account.Name);
     }

@@ -11,7 +11,7 @@ public class RegisterModel
     ///     账户名
     /// </summary>
     [Required]
-    public string Name { get; set; } = null!;
+    public string Account { get; set; } = null!;
 
     /// <summary>
     ///     账户密码
