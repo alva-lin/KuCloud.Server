@@ -30,6 +30,7 @@
         <ProjectReference Include="..\KuCloud.Data\KuCloud.Data.csproj" />
         <ProjectReference Include="..\KuCloud.Dto\KuCloud.Dto.csproj" />
         <ProjectReference Include="..\KuCloud.Services.Abstractions\KuCloud.Services.Abstractions.csproj" />
+        <ProjectReference Include="..\KuCloud.Services\KuCloud.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
