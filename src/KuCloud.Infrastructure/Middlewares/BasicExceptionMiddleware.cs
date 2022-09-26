@@ -1,5 +1,7 @@
 ﻿using KuCloud.Infrastructure.Common;
+using KuCloud.Infrastructure.Enums;
 using KuCloud.Infrastructure.Exceptions;
+using KuCloud.Infrastructure.Extensions;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -39,8 +41,8 @@ public class BasicExceptionMiddleware
         }
         catch (Exception e)
         {
-            var code = ResponseCode.ServiceError;
-            var result = ResponseModel<object>.Error(code, e.Message);
+            var code = ErrorCode.ServiceError;
+            var result = ResponseModel<object>.Error(code, code.ToDescription());
             await context.Response.WriteAsJsonAsync(result, cancellationToken);
 
             _logger.LogError("{Code} {Message} {Info}",

@@ -1,12 +1,14 @@
 ﻿using KuCloud.Core.Exceptions;
+using KuCloud.Data;
+using KuCloud.Data.Models;
 using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Attributes;
 using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
 using KuCloud.Infrastructure.Options;
 using KuCloud.Services.Abstractions;
-using KuCloud.Services.Abstractions.CommonServices;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,27 +21,24 @@ namespace KuCloud.Services;
 [LifeScope(LifeScope.Scope)]
 public class AuthService : IAuthService
 {
-    private readonly IAccountService _accountService;
+    private readonly KuCloudDbContext _dbContext;
 
     private readonly JwtOption _jwtOption;
 
-    public AuthService(IAccountService accountService, IOptionsMonitor<JwtOption> jwtOption)
+    public AuthService(IOptionsMonitor<JwtOption> jwtOption, KuCloudDbContext dbContext)
     {
-        _accountService = accountService;
-        _jwtOption = jwtOption.CurrentValue;
+        _dbContext      = dbContext;
+        _jwtOption      = jwtOption.CurrentValue;
     }
 
     public async Task<string> Login(LoginModel model, CancellationToken cancellationToken = default)
     {
-        var account = await _accountService.FindAsync(entity => entity.Name == model.Account, cancellationToken);
-        if (account == null)
-        {
-            throw new AccountException(ResponseCode.AccountOrPasswordError);
-        }
+        var account = await _dbContext.Accounts.FirstOrDefaultAsync(entity => entity.Name == model.Account, cancellationToken)
+         ?? throw new AccountException(ErrorCode.AccountOrPasswordError);
 
         if (!account.CheckPassword(model.Password))
         {
-            throw new AccountException(ResponseCode.AccountOrPasswordError);
+            throw new AccountException(ErrorCode.AccountOrPasswordError);
         }
 
         return GenerateToken();
@@ -54,7 +53,7 @@ public class AuthService : IAuthService
             new Claim(JwtRegisteredClaimNames.Exp, $"{new DateTimeOffset(DateTime.Now.AddMinutes(30)).ToUnixTimeSeconds()}"),
             new Claim(JwtRegisteredClaimNames.Nbf, $"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}"),
         };
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOption.Secret));
+        var key   = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOption.Secret));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
             issuer: _jwtOption.Issuer,

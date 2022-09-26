@@ -13,7 +13,7 @@ public class KuCloudDbContext : DbContext
 {
     private const string APP_USER = "Server";
 
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IHttpContextAccessor? _httpContextAccessor;
 
     public KuCloudDbContext(DbContextOptions<KuCloudDbContext> options, IHttpContextAccessor httpContextAccessor = null)
         : base(options)
@@ -29,7 +29,7 @@ public class KuCloudDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(DbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(KuCloudDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 
@@ -50,19 +50,19 @@ public class KuCloudDbContext : DbContext
             .Where(entry => entry.State == EntityState.Added || entry.State == EntityState.Modified);
 
         var utcNow = DateTime.UtcNow;
-        var user = _httpContextAccessor?.HttpContext?.User?.Identity?.Name ?? APP_USER;
+        var user   = _httpContextAccessor?.HttpContext?.User.Identity?.Name ?? APP_USER;
 
         foreach (var entity in entities)
         {
             if (entity.State == EntityState.Added)
             {
                 entity.Entity.CreatedTime = utcNow;
-                entity.Entity.CreatedBy = user;
+                entity.Entity.CreatedBy   = user;
             }
             if (entity.State == EntityState.Modified)
             {
                 entity.Entity.ModifiedTime = utcNow;
-                entity.Entity.ModifiedBy = user;
+                entity.Entity.ModifiedBy   = user;
             }
         }
     }

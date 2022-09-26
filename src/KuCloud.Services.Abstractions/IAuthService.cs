@@ -3,7 +3,7 @@ using KuCloud.Infrastructure.Attributes;
 using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
 
-namespace KuCloud.Services.Abstractions.CommonServices;
+namespace KuCloud.Services.Abstractions;
 
 [LifeScope(LifeScope.Scope)]
 public interface IAuthService : IBasicService

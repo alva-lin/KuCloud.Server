@@ -1,10 +1,9 @@
 ﻿using KuCloud.Infrastructure.Common;
+using KuCloud.Infrastructure.Enums;
 using KuCloud.Infrastructure.Exceptions;
+using KuCloud.Infrastructure.Extensions;
 using KuCloud.Infrastructure.Options;
-using KuCloud.Services.Abstractions;
-using KuCloud.Services.Abstractions.CommonServices;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -15,19 +14,14 @@ namespace KuCloud.Api.Controllers;
 /// </summary>
 public class TestController : BasicController
 {
-    private readonly IAccountService _accountService;
-
-    private readonly IAuthService _authService;
     private readonly ILogger<TestController> _logger;
 
-    private readonly JwtOption _jwtOption;
+    private readonly IServiceProvider _provider;
 
-    public TestController(ILogger<TestController> logger, IAuthService authService, IAccountService accountService, IOptions<JwtOption> jwtOption)
+    public TestController(ILogger<TestController> logger, IServiceProvider provider)
     {
         _logger = logger;
-        _authService = authService;
-        _accountService = accountService;
-        _jwtOption = jwtOption.Value;
+        _provider = provider;
     }
 
     /// <summary>
@@ -44,8 +38,41 @@ public class TestController : BasicController
     {
         if (isBasic)
         {
-            throw new BasicException(ResponseCode.ServiceFail);
+            throw new BasicException(ErrorCode.ServiceFail);
         }
         throw new();
+    }
+
+    /// <summary>
+    /// 获取配置项
+    /// </summary>
+    /// <param name="optionName"></param>
+    /// <returns></returns>
+    /// <exception cref="BasicException"></exception>
+    [HttpGet("[action]")]
+    public IActionResult GetOption(string optionName)
+    {
+        var types = ServiceExtension.AllNormalTypes.Where(type => type.GetInterface(nameof(IBasicOption)) is { }).ToArray();
+
+        var type = types.FirstOrDefault(type1 => type1.Name.Equals(optionName, StringComparison.OrdinalIgnoreCase));
+        if (type == null)
+        {
+            throw new BasicException(ErrorCode.ServiceFail, $"Options {optionName} not found");
+        }
+
+        using var scope = _provider.CreateScope();
+        var services = scope.ServiceProvider;
+
+        var genericType = typeof(IOptionsSnapshot<>).MakeGenericType(type);
+
+        var option = services.GetService(genericType);
+        if (option == null)
+        {
+            throw new BasicException(ErrorCode.ServiceFail, $"Options {optionName} not found");
+        }
+
+        var result = ((IOptionsSnapshot<IBasicOption>)option).Value;
+
+        return Ok(result);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Common;
-using KuCloud.Services.Abstractions.CommonServices;
+using KuCloud.Services.Abstractions;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

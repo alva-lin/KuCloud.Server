@@ -1,20 +1,24 @@
-﻿namespace KuCloud.Infrastructure.Exceptions;
+﻿using KuCloud.Infrastructure.Common;
+using KuCloud.Infrastructure.Enums;
+using KuCloud.Infrastructure.Extensions;
+
+namespace KuCloud.Infrastructure.Exceptions;
 
 public class BasicException : Exception
 {
     // ReSharper disable once MemberCanBeProtected.Global
     public BasicException(
-        int code,
+        ErrorCode code,
         string? message = null,
         object? errorInfos = null,
         Exception? innerException = null)
-        : base(message, innerException)
+        : base(message ?? code.ToDescription(), innerException)
     {
         Code = code;
         ErrorInfos = errorInfos;
     }
 
-    public int Code { get; set; }
+    public ErrorCode Code { get; set; }
 
     public object? ErrorInfos { get; set; }
 }

@@ -1,4 +1,6 @@
-﻿namespace KuCloud.Infrastructure.Common;
+﻿using KuCloud.Infrastructure.Enums;
+
+namespace KuCloud.Infrastructure.Common;
 
 /// <summary>
 /// 响应结果包装器
@@ -9,7 +11,7 @@ public class ResponseModel<TModel>
     /// <summary>
     /// 响应码
     /// </summary>
-    public int Code { get; set; }
+    public ErrorCode Code { get; set; }
 
     /// <summary>
     /// 响应信息
@@ -25,11 +27,11 @@ public class ResponseModel<TModel>
         new()
         {
             Data = data,
-            Code = ResponseCode.Success,
+            Code = ErrorCode.Success,
             Message = message
         };
 
-    public static ResponseModel<TModel> Fail(int code, string? message = null, TModel? data = default) =>
+    public static ResponseModel<TModel> Fail(ErrorCode code, string? message = null, TModel? data = default) =>
         new()
         {
             Data = data,
@@ -37,7 +39,7 @@ public class ResponseModel<TModel>
             Message = message
         };
 
-    public static ResponseModel<TModel> Error(int code, string? message = null, TModel? data = default) =>
+    public static ResponseModel<TModel> Error(ErrorCode code, string? message = null, TModel? data = default) =>
         new()
         {
             Data = data,

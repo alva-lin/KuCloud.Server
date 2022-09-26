@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 using System.Reflection;
+
 // ReSharper disable UnusedMethodReturnValue.Global
 
 namespace KuCloud.Infrastructure.Extensions;
@@ -22,34 +23,20 @@ public static class ServiceExtension
 
     private static Type[] AllTypes => AllAssemblies.SelectMany(assembly => assembly.GetTypes()).ToArray();
 
-    private static Type[] AllNormalTypes => AllTypes.Where(type => type.IsClass && !type.IsGenericType && !type.IsAbstract).ToArray();
+    public static Type[] AllNormalTypes => AllTypes.Where(type => type.IsClass && !type.IsGenericType && !type.IsAbstract).ToArray();
 
     /// <summary>
     ///     根据 <see cref="LifeScopeAttribute" /> 来注册服务
     /// </summary>
-    public static IServiceCollection AddKuCloudServiceByLifeScope(this IServiceCollection services)
+    public static IServiceCollection AddBasicServiceByLifeScope(this IServiceCollection services)
     {
         var types = AllNormalTypes
-            .Where(type =>
-                type.Name.EndsWith("Service") &&
-                type.GetInterface(nameof(IBasicService)) != null)
+            .Where(type => type.GetInterface(nameof(IBasicService)) != null)
             .ToList();
 
         foreach (var type in types)
         {
             var lifeScope = type.GetCustomAttribute<LifeScopeAttribute>()?.Scope ?? LifeScope.Transient;
-            switch (lifeScope)
-            {
-                case LifeScope.Transient:
-                    services.AddTransient(type);
-                    break;
-                case LifeScope.Scope:
-                    services.AddScoped(type);
-                    break;
-                case LifeScope.Singleton:
-                    services.AddSingleton(type);
-                    break;
-            }
 
             var implements = type.GetInterfaces()
                 .Where(iType => !iType.IsGenericType && iType.Name.EndsWith("Service"));
@@ -108,8 +95,8 @@ public static class ServiceExtension
         services.AddCors(options =>
         {
             var serviceProvider = services.BuildServiceProvider();
-            var corsOption = serviceProvider!.GetRequiredService<IOptions<CorsOption>>().Value;
-            
+            var corsOption      = serviceProvider!.GetRequiredService<IOptions<CorsOption>>().Value;
+
             options.AddPolicy("Develop", builder =>
             {
                 builder.WithOrigins(corsOption.AllowOrigins);

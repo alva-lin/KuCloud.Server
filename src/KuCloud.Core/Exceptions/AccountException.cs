@@ -1,11 +1,13 @@
-﻿using KuCloud.Infrastructure.Exceptions;
+﻿using KuCloud.Infrastructure.Common;
+using KuCloud.Infrastructure.Enums;
+using KuCloud.Infrastructure.Exceptions;
 
 namespace KuCloud.Core.Exceptions;
 
 public class AccountException : BasicException
 {
     public AccountException(
-        int code,
+        ErrorCode code,
         string? message = null,
         object? errorInfos = null,
         Exception? innerException = null)

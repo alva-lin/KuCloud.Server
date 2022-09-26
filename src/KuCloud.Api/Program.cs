@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+
+// Environment.CurrentDirectory = AppContext.BaseDirectory;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -16,6 +19,7 @@ builder.Services.AddControllers(options =>
 }).AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -40,13 +44,16 @@ builder.Services.AddSwaggerGen(options =>
         Array.ForEach(xmlDocs, s => options.IncludeXmlComments(s));
     }
 });
-builder.Services.AddKuCloudServiceByLifeScope();
+builder.Services.AddBasicServiceByLifeScope();
 builder.Services.AddBasicOptions(configuration);
 builder.Services.AddJwtBearer();
 builder.Services.AddCorsSetting();
 
 builder.Services.AddDbContext<KuCloudDbContext>(optionsBuilder =>
-    optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud")));
+{
+    optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud"),
+        contextOptionsBuilder => contextOptionsBuilder.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+});
 
 var app = builder.Build();
 
