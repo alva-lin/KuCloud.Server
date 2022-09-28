@@ -47,6 +47,14 @@ public interface IObjectStorageService
     Task<string> GenerateSignalUrl(SignalUrlType urlType, string path, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// create folder on given <paramref name="path"/>, and if it is existed, do nothing.
+    /// </summary>
+    /// <param name="path">the path of the file on the ObjectStorage. if the <paramref name="path"/> ends with '/', it means it is a folder</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>true if success, false otherwise</returns>
+    Task<bool> CreateFolderAsync(string path, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// upload file from <paramref name="localPath"/>
     /// </summary>
     /// <param name="path">the path of the file on the ObjectStorage. if the <paramref name="path"/> ends with '/', it means it is a folder</param>
