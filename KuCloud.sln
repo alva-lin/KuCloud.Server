@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Executable", "4.Executabl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.ObjectStorage.Abstract", "src\Infrastructure\ObjectStorage\KuCloud.ObjectStorage.Abstract\KuCloud.ObjectStorage.Abstract.csproj", "{38B7D858-CB46-4F34-9834-E1E6A374EB2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.ObjectStorage.QCloudCos", "src\Infrastructure\ObjectStorage\KuCloud.ObjectStorage.QCloudCos\KuCloud.ObjectStorage.QCloudCos.csproj", "{46604D3A-503D-472F-8665-BA2D6F706F76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{38B7D858-CB46-4F34-9834-E1E6A374EB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38B7D858-CB46-4F34-9834-E1E6A374EB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38B7D858-CB46-4F34-9834-E1E6A374EB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46604D3A-503D-472F-8665-BA2D6F706F76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46604D3A-503D-472F-8665-BA2D6F706F76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46604D3A-503D-472F-8665-BA2D6F706F76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46604D3A-503D-472F-8665-BA2D6F706F76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +102,7 @@ Global
 		{035DBB7D-1278-4E3C-94C3-63A1FA97F8C6} = {E0553411-CECF-4714-AEA9-624529DA9C64}
 		{0A908A0C-FBA0-4434-83B1-662926E73BCD} = {E0553411-CECF-4714-AEA9-624529DA9C64}
 		{38B7D858-CB46-4F34-9834-E1E6A374EB2B} = {53E4EA9E-643F-4EAF-BF99-3C126EB1E412}
+		{46604D3A-503D-472F-8665-BA2D6F706F76} = {53E4EA9E-643F-4EAF-BF99-3C126EB1E412}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2BBA3D9-B7C1-4CE0-8EE2-20596B0BE9FE}
