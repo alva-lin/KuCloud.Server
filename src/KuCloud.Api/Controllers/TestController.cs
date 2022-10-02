@@ -20,8 +20,8 @@ public class TestController : BasicController
 
     public TestController(ILogger<TestController> logger, IServiceProvider provider)
     {
-        _logger = logger;
-        _provider = provider;
+        _logger               = logger;
+        _provider             = provider;
     }
 
     /// <summary>
@@ -60,8 +60,8 @@ public class TestController : BasicController
             throw new BasicException(ErrorCode.ServiceFail, $"Options {optionName} not found");
         }
 
-        using var scope = _provider.CreateScope();
-        var services = scope.ServiceProvider;
+        using var scope    = _provider.CreateScope();
+        var       services = scope.ServiceProvider;
 
         var genericType = typeof(IOptionsSnapshot<>).MakeGenericType(type);
 

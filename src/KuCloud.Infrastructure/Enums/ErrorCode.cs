@@ -25,27 +25,30 @@ public enum ErrorCode
 
     [Description("unknown service fail")]
     ServiceFail = 30000,
+    
+    [Description("operation was canceled")]
+    RequestCanceled = 30001,
 
     [Description("token not found")]
-    TokenNotFound = 30001,
+    TokenNotFound = 30101,
 
     [Description("token invalid")]
-    TokenInvalid = 30002,
+    TokenInvalid = 30102,
 
     [Description("token expired")]
-    TokenExpired = 30003,
+    TokenExpired = 30103,
 
     [Description("model invalid")]
-    ModelInvalid = 30101,
+    ModelInvalid = 30201,
 
     [Description("entity not found")]
-    EntityNotFound = 30201,
+    EntityNotFound = 30301,
 
     [Description("account has been existed")]
-    AccountHasBeenExisted = 30301,
+    AccountHasBeenExisted = 30401,
 
     [Description("account or password error")]
-    AccountOrPasswordError = 30302,
+    AccountOrPasswordError = 30402,
 
     #endregion
 

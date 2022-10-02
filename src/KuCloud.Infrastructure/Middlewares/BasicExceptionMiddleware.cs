@@ -34,18 +34,22 @@ public class BasicExceptionMiddleware
             await context.Response.WriteAsJsonAsync(result, cancellationToken);
 
             // TODO 错误代码的 CodeMean, Description 标签的内容
-            _logger.LogError("{Code} {Message} {Info}",
+            _logger.LogError(e, "{Code} {Message} {Info}",
                 e.Code,
                 e.Message,
                 e.ErrorInfos);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("request canceled");
+        }
         catch (Exception e)
         {
             var code = ErrorCode.ServiceError;
-            var result = ResponseModel<object>.Error(code, code.ToDescription());
+            var result = ResponseModel<object>.Error(code);
             await context.Response.WriteAsJsonAsync(result, cancellationToken);
 
-            _logger.LogError("{Code} {Message} {Info}",
+            _logger.LogError(e,"{Code} {Message} {Info}",
                 code,
                 e.Message,
                 e.StackTrace);

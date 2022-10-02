@@ -1,4 +1,5 @@
 ﻿using KuCloud.Infrastructure.Enums;
+using KuCloud.Infrastructure.Extensions;
 
 namespace KuCloud.Infrastructure.Common;
 
@@ -36,14 +37,14 @@ public class ResponseModel<TModel>
         {
             Data = data,
             Code = code,
-            Message = message
+            Message = message ?? code.ToDescription()
         };
 
     public static ResponseModel<TModel> Error(ErrorCode code, string? message = null, TModel? data = default) =>
         new()
         {
-            Data = data,
-            Code = code,
-            Message = message
+            Data    = data,
+            Code    = code,
+            Message = message ?? code.ToDescription()
         };
 }
