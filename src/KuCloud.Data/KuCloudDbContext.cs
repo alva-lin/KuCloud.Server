@@ -1,8 +1,11 @@
 ﻿using KuCloud.Data.Models;
+using KuCloud.Data.Models.Storage;
 using KuCloud.Infrastructure.Entities;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+
+using File = KuCloud.Data.Models.Storage.File;
 
 #pragma warning disable CS8625
 #pragma warning disable CS8618
@@ -24,6 +27,10 @@ public class KuCloudDbContext : DbContext
     #region DbSet
 
     public virtual DbSet<Account> Accounts { get; set; }
+
+    public virtual DbSet<Folder> Folders { get; set; }
+
+    public virtual DbSet<File> Files { get; set; }
 
     #endregion
 
