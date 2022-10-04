@@ -15,15 +15,15 @@ using Newtonsoft.Json;
 
 namespace KuCloud.ObjectStorage.QCloudCos;
 
-public class TencentCloudObjectStorageService : IObjectStorageService
+public class QCloudCosService : IObjectStorageService
 {
-    private readonly TencentCosOption _option;
+    private readonly QCloudCosOption _option;
 
     private readonly CosXml _cosXml;
 
-    private readonly ILogger<TencentCloudObjectStorageService> _logger;
+    private readonly ILogger<QCloudCosService> _logger;
 
-    public TencentCloudObjectStorageService(IOptionsSnapshot<TencentCosOption> optionsSnapshot, ILogger<TencentCloudObjectStorageService> logger)
+    public QCloudCosService(IOptionsSnapshot<QCloudCosOption> optionsSnapshot, ILogger<QCloudCosService> logger)
     {
         _logger = logger;
 

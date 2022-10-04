@@ -10,4 +10,8 @@
         <ProjectReference Include="..\KuCloud.Infrastructure\KuCloud.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Exceptions" />
+    </ItemGroup>
+
 </Project>

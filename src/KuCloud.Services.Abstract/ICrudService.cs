@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 using System.Linq.Expressions;
 
-namespace KuCloud.Services.Abstractions;
+namespace KuCloud.Services.Abstract;
 
 public interface ICrudService<TEntity> : IBasicService where TEntity : class, IBasicEntity
 {

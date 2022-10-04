@@ -1,5 +1,5 @@
 ﻿using KuCloud.Infrastructure.Entities;
-using KuCloud.Services.Abstractions;
+using KuCloud.Services.Abstract;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

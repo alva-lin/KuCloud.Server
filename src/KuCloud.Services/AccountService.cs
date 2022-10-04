@@ -1,9 +1,9 @@
 ﻿using KuCloud.Core.Exceptions;
 using KuCloud.Data;
+using KuCloud.Data.Dto.Account;
 using KuCloud.Data.Models;
-using KuCloud.Dto.Account;
 using KuCloud.Infrastructure.Enums;
-using KuCloud.Services.Abstractions;
+using KuCloud.Services.Abstract;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

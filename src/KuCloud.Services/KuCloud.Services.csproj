@@ -7,9 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\KuCloud.Core\KuCloud.Core.csproj"/>
-        <ProjectReference Include="..\KuCloud.Data\KuCloud.Data.csproj"/>
-        <ProjectReference Include="..\KuCloud.Services.Abstractions\KuCloud.Services.Abstractions.csproj"/>
+        <ProjectReference Include="..\KuCloud.Data\KuCloud.Data.csproj" />
+        <ProjectReference Include="..\KuCloud.Services.Abstract\KuCloud.Services.Abstract.csproj" />
     </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@
 /// <summary>
 /// 腾讯云对象存储配置项
 /// </summary>
-public class TencentCosOption
+public class QCloudCosOption
 {
     /// <summary>
     /// 腾讯云账户的账户标识 APPID

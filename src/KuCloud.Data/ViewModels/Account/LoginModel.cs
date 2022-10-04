@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KuCloud.Dto.Account;
+namespace KuCloud.Data.Dto.Account;
 
 /// <summary>
 ///     登录账户的数据模型

@@ -1,10 +1,10 @@
-﻿using KuCloud.Data.Models;
-using KuCloud.Dto.Account;
+﻿using KuCloud.Data.Dto.Account;
+using KuCloud.Data.Models;
 using KuCloud.Infrastructure.Attributes;
 using KuCloud.Infrastructure.Common;
 using KuCloud.Infrastructure.Enums;
 
-namespace KuCloud.Services.Abstractions;
+namespace KuCloud.Services.Abstract;
 
 [LifeScope(LifeScope.Scope)]
 public interface IAccountService : IBasicService
