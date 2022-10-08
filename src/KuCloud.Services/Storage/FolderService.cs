@@ -1,4 +1,5 @@
-﻿using KuCloud.Data;
+﻿using KuCloud.Core.Exceptions;
+using KuCloud.Data;
 using KuCloud.Data.Models.Storage;
 using KuCloud.Infrastructure.Enums;
 using KuCloud.Infrastructure.Exceptions;
@@ -60,7 +61,8 @@ public class FolderService : IFolderService
             {
                 // delete all file in cloud storage
                 var prefix    = folder.FullPath + StorageNode.DELIMITER + "%";
-                var files     = await _dbContext.Files.FromSqlRaw($"SELECT * FROM StorageNode WHERE NodeType = 0 AND PATH LIKE {prefix}").ToListAsync(cancellationToken);
+                var files     = await _dbContext.Files.Where(file => file.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
+                
                 var pathArray = files.Select(file => file.StoragePath).ToArray();
                 await _objectStorageService.DeleteAsync(pathArray, cancellationToken);
 
@@ -100,10 +102,10 @@ public class FolderService : IFolderService
             try
             {
                 var prefix = folder.FullPath + StorageNode.DELIMITER + "%";
-                var files  = await _dbContext.Files.FromSqlRaw($"SELECT * FROM StorageNode WHERE NodeType = 0 AND PATH LIKE {prefix}").ToListAsync(cancellationToken);
+                var files  = await _dbContext.Files.Where(file => file.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
                 files.ForEach(file => file.Path = newPath + file.Path.TrimStart(folder.FullPath));
 
-                var folders = await _dbContext.Folders.FromSqlRaw($"SELECT * FROM StorageNode WHERE NodeType = 1 AND PATH LIKE {prefix}").ToListAsync(cancellationToken);
+                var folders = await _dbContext.Folders.Where(folder1 => folder1.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
                 folders.ForEach(folder => folder.Path = newPath + folder.Path.TrimStart(folder.FullPath));
 
                 folder.Parent = newParent;
@@ -138,10 +140,10 @@ public class FolderService : IFolderService
                 folder.Name = newName;
                 
                 var prefix = folder.FullPath + StorageNode.DELIMITER + "%";
-                var files  = await _dbContext.Files.FromSqlRaw($"SELECT * FROM StorageNode WHERE NodeType = 0 AND PATH LIKE {prefix}").ToListAsync(cancellationToken);
+                var files  = await _dbContext.Files.Where(file => file.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
                 files.ForEach(file => file.Path = folder.FullPath + file.Path.TrimStart(oldPath));
 
-                var folders = await _dbContext.Folders.FromSqlRaw($"SELECT * FROM StorageNode WHERE NodeType = 1 AND PATH LIKE {prefix}").ToListAsync(cancellationToken);
+                var folders = await _dbContext.Folders.Where(folder1 => folder1.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
                 folders.ForEach(folder => folder.Path = folder.FullPath + folder.Path.TrimStart(oldPath));
                 
                 await _dbContext.SaveChangesAsync(cancellationToken);
@@ -162,12 +164,33 @@ public class FolderService : IFolderService
         path = path.TrimEnd(StorageNode.DELIMITER);
         name = name.Trim(StorageNode.DELIMITER);
 
-        var query =  _dbContext.Folders.FromSqlRaw($"SELECT * FROM StorageNode WHERE NodeType = 1 AND PATH = {path} AND Name = {name}");
+        var query =  _dbContext.Folders.Where(folder => folder.Path == path && folder.Name == name);
         if (includeNodes)
         {
             query = query.Include(folder => folder.Nodes);
         }
 
         return query.FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public Task<Folder?> QueryAsync(string fullPath, bool includeNodes, CancellationToken cancellationToken)
+    {
+        fullPath = fullPath.TrimEnd(StorageNode.DELIMITER);
+        
+        var splits = fullPath.Split(StorageNode.DELIMITER);
+        var name   = splits[^1];
+        var path   = string.Join(StorageNode.DELIMITER, splits[..^1]);
+
+        return QueryAsync(path, name, includeNodes, cancellationToken);
+    }
+
+    public async Task<Folder> FindAsync(string path, string name, bool includeNodes = false, CancellationToken cancellationToken = default)
+    {
+        return await QueryAsync(path, name, includeNodes, cancellationToken) ?? throw new EntityNotFoundException(typeof(Folder), $"{path}/{name}");
+    }
+
+    public async Task<Folder> FindAsync(string fullPath, bool includeNodes = false, CancellationToken cancellationToken = default)
+    {
+        return await QueryAsync(fullPath, includeNodes, cancellationToken) ?? throw new EntityNotFoundException(typeof(Folder), fullPath);
     }
 }

@@ -14,4 +14,10 @@ public interface IFolderService : IBasicService
     public Task RenameAsync(string path, string name, string newName, CancellationToken cancellationToken = default);
 
     public Task<Folder?> QueryAsync(string path, string name, bool includeNodes = false, CancellationToken cancellationToken = default);
+    
+    public Task<Folder?> QueryAsync(string fullPath, bool includeNodes = false, CancellationToken cancellationToken = default);
+
+    public Task<Folder> FindAsync(string path, string name, bool includeNodes = false, CancellationToken cancellationToken = default);
+    
+    public Task<Folder> FindAsync(string fullPath, bool includeNodes = false, CancellationToken cancellationToken = default);
 }

@@ -7,7 +7,9 @@ namespace KuCloud.Services.Abstract.Storage;
 public interface IFileService : IBasicService
 {
     public Task<File?> QueryAsync(string path, string name, CancellationToken cancellationToken = default);
-    
+
+    public Task<File> FindAsync(string path, string name, CancellationToken cancellationToken = default);
+
     public Task RemoveAsync(string path, string name, CancellationToken cancellationToken = default);
 
     public Task MoveAsync(string path, string name, string newPath, CancellationToken cancellationToken = default);
