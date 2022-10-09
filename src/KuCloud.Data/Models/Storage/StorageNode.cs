@@ -23,7 +23,7 @@ public abstract class StorageNode : BasicEntity<long>
     /// <summary>
     /// 名称
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     public string FullPath => Path + DELIMITER + Name;
 
@@ -36,6 +36,8 @@ public abstract class StorageNode : BasicEntity<long>
     /// 父节点
     /// </summary>
     public Folder? Parent { get; set; }
+    
+    protected StorageNode() {}
 
     protected StorageNode(Folder? parent, string name)
     {

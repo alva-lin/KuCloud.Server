@@ -24,20 +24,22 @@ public class FolderService : IFolderService
 
     public FolderService(KuCloudDbContext dbContext, ILogger<FolderService> logger, IObjectStorageService objectStorageService)
     {
-        _dbContext            = dbContext;
-        _logger               = logger;
+        _dbContext = dbContext;
+        _logger = logger;
         _objectStorageService = objectStorageService;
 
         _folders = _dbContext.Folders.AsQueryable();
     }
 
-    public async Task CreateAsync(string path, string name, CancellationToken cancellationToken)
+    public async Task CreateAsync(string fullPath, CancellationToken cancellationToken)
     {
-        path = path.TrimEnd(StorageNode.DELIMITER);
+        var (path, name) = SplitPath(fullPath);
+
         Folder? parent = null;
         if (path.IsNotNullOrWhiteSpace())
         {
-            parent = await _folders.FirstOrDefaultAsync(folder => folder.FullPath == path, cancellationToken);
+            var (parentPath, parentName) = SplitPath(path);
+            parent = await _folders.FirstOrDefaultAsync(folder => folder.Path == parentPath && folder.Name == parentName, cancellationToken);
         }
 
         var folder = new Folder(parent, name);
@@ -45,24 +47,21 @@ public class FolderService : IFolderService
         await _dbContext.Folders.AddAsync(folder, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        _logger.LogInformation("{Action} {Id} {FullPath}", "create folder", folder.Id, folder.FullPath);
+        _logger.LogInformation("{Action} {Id} {Path}", "create folder", folder.Id, folder.FullPath);
     }
 
-    public async Task RemoveAsync(string path, string name, CancellationToken cancellationToken)
+    public async Task RemoveAsync(string fullPath, CancellationToken cancellationToken)
     {
-        path = path.TrimEnd(StorageNode.DELIMITER);
-        name = name.Trim(StorageNode.DELIMITER);
-
-        var folder = await QueryAsync(path, name, false, cancellationToken);
+        var folder = await QueryAsync(fullPath, false, cancellationToken);
         if (folder != null)
         {
             await using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
             try
             {
                 // delete all file in cloud storage
-                var prefix    = folder.FullPath + StorageNode.DELIMITER + "%";
-                var files     = await _dbContext.Files.Where(file => file.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
-                
+                var prefix = folder.FullPath + StorageNode.DELIMITER + "%";
+                var files = await _dbContext.Files.Where(file => file.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
+
                 var pathArray = files.Select(file => file.StoragePath).ToArray();
                 await _objectStorageService.DeleteAsync(pathArray, cancellationToken);
 
@@ -77,23 +76,24 @@ public class FolderService : IFolderService
                 await transaction.RollbackAsync(cancellationToken);
                 throw new BasicException(ErrorCode.ServiceFail, "remove folder failed", innerException: e);
             }
-            _logger.LogInformation("{Action} {Id} {FullPath}", "remove folder", folder.Id, folder.FullPath);
+            _logger.LogInformation("{Action} {Id} {Path}", "remove folder", folder.Id, folder.FullPath);
         }
     }
 
-    public async Task MoveAsync(string path, string name, string newPath, CancellationToken cancellationToken)
+    public async Task MoveAsync(string fullPath, string newFullPath, CancellationToken cancellationToken)
     {
-        path = path.TrimEnd(StorageNode.DELIMITER);
-        name = name.Trim(StorageNode.DELIMITER);
+        var (newPath, newName) = SplitPath(newFullPath);
+        newFullPath = newPath + StorageNode.DELIMITER + newName;
 
-        var     folder    = await QueryAsync(path, name, false, cancellationToken);
+        var folder = await QueryAsync(fullPath, false, cancellationToken);
         Folder? newParent = null;
         if (newPath.IsNotNullOrWhiteSpace())
         {
-            newParent = await _folders.FirstOrDefaultAsync(folder => folder.FullPath == path, cancellationToken);
+            var (parentPath, parentName) = SplitPath(newPath);
+            newParent = await _folders.FirstOrDefaultAsync(folder => folder.Path == parentPath && folder.Name == parentName, cancellationToken);
             if (newParent == null)
             {
-                throw new BasicException(ErrorCode.ServiceFail, $"move folder failed: not existed path {newPath}");
+                throw new BasicException(ErrorCode.ServiceFail, $"move folder failed: not existed path {newFullPath}");
             }
         }
         if (folder != null)
@@ -101,13 +101,13 @@ public class FolderService : IFolderService
             await using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
             try
             {
-                var prefix = folder.FullPath + StorageNode.DELIMITER + "%";
-                var files  = await _dbContext.Files.Where(file => file.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
-                files.ForEach(file => file.Path = newPath + file.Path.TrimStart(folder.FullPath));
+                var files = await _dbContext.Files.Where(file => file.Path.StartsWith(folder.FullPath)).ToListAsync(cancellationToken);
+                files.ForEach(file => file.Path = newFullPath + file.Path.TrimStart(folder.FullPath));
 
-                var folders = await _dbContext.Folders.Where(folder1 => folder1.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
-                folders.ForEach(folder => folder.Path = newPath + folder.Path.TrimStart(folder.FullPath));
+                var folders = await _dbContext.Folders.Where(folder1 => folder1.Path.StartsWith(folder.FullPath)).ToListAsync(cancellationToken);
+                folders.ForEach(folder1 => folder1.Path = newFullPath + folder1.Path.TrimStart(folder.FullPath));
 
+                folder.Name = newName;
                 folder.Parent = newParent;
                 folder.SetPath(newParent);
 
@@ -120,51 +120,15 @@ public class FolderService : IFolderService
                 await transaction.RollbackAsync(cancellationToken);
                 throw new BasicException(ErrorCode.ServiceFail, "move folder failed", innerException: e);
             }
-            _logger.LogInformation("{Action} {Id} {FullPath}", "move folder", folder.Id, folder.FullPath);
+            _logger.LogInformation("{Action} {Id} {Path}", "move folder", folder.Id, folder.FullPath);
         }
     }
 
-    public async Task RenameAsync(string path, string name, string newName, CancellationToken cancellationToken)
+    public Task<Folder?> QueryAsync(string fullPath, bool includeNodes, CancellationToken cancellationToken)
     {
-        path = path.TrimEnd(StorageNode.DELIMITER);
-        name = name.Trim(StorageNode.DELIMITER);
+        var (path, name) = SplitPath(fullPath);
 
-        var folder = await QueryAsync(path, name, false, cancellationToken);
-        if (folder != null)
-        {
-            await using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
-            try
-            {
-                var oldPath = folder.FullPath;
-                
-                folder.Name = newName;
-                
-                var prefix = folder.FullPath + StorageNode.DELIMITER + "%";
-                var files  = await _dbContext.Files.Where(file => file.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
-                files.ForEach(file => file.Path = folder.FullPath + file.Path.TrimStart(oldPath));
-
-                var folders = await _dbContext.Folders.Where(folder1 => folder1.Path.StartsWith(prefix)).ToListAsync(cancellationToken);
-                folders.ForEach(folder => folder.Path = folder.FullPath + folder.Path.TrimStart(oldPath));
-                
-                await _dbContext.SaveChangesAsync(cancellationToken);
-
-                await transaction.CommitAsync(cancellationToken);
-            }
-            catch (Exception e)
-            {
-                await transaction.RollbackAsync(cancellationToken);
-                throw new BasicException(ErrorCode.ServiceFail, "rename folder failed", innerException: e);
-            }
-            _logger.LogInformation("{Action} {Id} {FullPath}", "rename folder", folder.Id, folder.FullPath);
-        }
-    }
-
-    public Task<Folder?> QueryAsync(string path, string name, bool includeNodes, CancellationToken cancellationToken)
-    {
-        path = path.TrimEnd(StorageNode.DELIMITER);
-        name = name.Trim(StorageNode.DELIMITER);
-
-        var query =  _dbContext.Folders.Where(folder => folder.Path == path && folder.Name == name);
+        var query = _dbContext.Folders.Where(folder => folder.Path == path && folder.Name == name);
         if (includeNodes)
         {
             query = query.Include(folder => folder.Nodes);
@@ -173,24 +137,19 @@ public class FolderService : IFolderService
         return query.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public Task<Folder?> QueryAsync(string fullPath, bool includeNodes, CancellationToken cancellationToken)
-    {
-        fullPath = fullPath.TrimEnd(StorageNode.DELIMITER);
-        
-        var splits = fullPath.Split(StorageNode.DELIMITER);
-        var name   = splits[^1];
-        var path   = string.Join(StorageNode.DELIMITER, splits[..^1]);
-
-        return QueryAsync(path, name, includeNodes, cancellationToken);
-    }
-
-    public async Task<Folder> FindAsync(string path, string name, bool includeNodes = false, CancellationToken cancellationToken = default)
-    {
-        return await QueryAsync(path, name, includeNodes, cancellationToken) ?? throw new EntityNotFoundException(typeof(Folder), $"{path}/{name}");
-    }
-
     public async Task<Folder> FindAsync(string fullPath, bool includeNodes = false, CancellationToken cancellationToken = default)
     {
-        return await QueryAsync(fullPath, includeNodes, cancellationToken) ?? throw new EntityNotFoundException(typeof(Folder), fullPath);
+        var (path, name) = SplitPath(fullPath);
+        return await QueryAsync(fullPath, includeNodes, cancellationToken) ?? throw new EntityNotFoundException(typeof(Folder), $"{path}/{name}");
+    }
+
+    private (string Path, string Name) SplitPath(string fullPath)
+    {
+        fullPath = fullPath.TrimEnd(StorageNode.DELIMITER);
+        var splits = fullPath.Split(StorageNode.DELIMITER);
+        var name = splits[^1];
+        var path = string.Join(StorageNode.DELIMITER, splits[..^1]);
+
+        return (path, name);
     }
 }

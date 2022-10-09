@@ -24,11 +24,13 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Infrastructure\ObjectStorage\KuCloud.ObjectStorage.QCloudCos\KuCloud.ObjectStorage.QCloudCos.csproj" />
         <ProjectReference Include="..\KuCloud.Data\KuCloud.Data.csproj" />
         <ProjectReference Include="..\KuCloud.Services.Abstract\KuCloud.Services.Abstract.csproj" />
         <ProjectReference Include="..\KuCloud.Services\KuCloud.Services.csproj" />

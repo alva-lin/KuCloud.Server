@@ -15,7 +15,9 @@ public class File : StorageNode
     /// <summary>
     /// 文件大小
     /// </summary>
-    public long Size { get; protected set; }
+    public long Size { get; set; }
+    
+    protected File() {}
 
     public File(Folder? parent, string name)
         : base(parent, name)

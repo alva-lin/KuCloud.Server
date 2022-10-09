@@ -81,7 +81,7 @@ public class QCloudCosService : IObjectStorageService
         return result.responseHeaders;
     }
 
-    public Task<string> GenerateSignalUrl(SignalUrlType urlType, string path, CancellationToken cancellationToken = default)
+    public Task<string> GenerateSignalUrl(SignalUrlType urlType, string path, string? fileName = null, CancellationToken cancellationToken = default)
     {
         path = _option.BasePath + path;
         var preSignStruct = new PreSignatureStruct
@@ -96,6 +96,15 @@ public class QCloudCosService : IObjectStorageService
             headers            = null,
             queryParameters    = null
         };
+        if (fileName != null)
+        {
+            preSignStruct.queryParameters = new Dictionary<string, string>
+            {
+                {
+                    "response-content-disposition", "attachment; filename=" + fileName
+                }
+            };
+        }
 
         return Task.Run(() =>
         {
@@ -241,6 +250,8 @@ public class QCloudCosService : IObjectStorageService
 
     public async Task<int> DeleteAsync(string[] pathArray, CancellationToken cancellationToken = default)
     {
+        if (pathArray.Length == 0) return 0;
+        
         pathArray = pathArray.Select(path => _option.BasePath + path).ToArray();
 
         var request = new DeleteMultiObjectRequest(_option.Bucket);

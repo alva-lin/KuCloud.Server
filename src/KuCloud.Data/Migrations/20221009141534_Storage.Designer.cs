@@ -3,6 +3,7 @@ using System;
 using KuCloud.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KuCloud.Data.Migrations
 {
     [DbContext(typeof(KuCloudDbContext))]
-    partial class KuCloudDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221009141534_Storage")]
+    partial class Storage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

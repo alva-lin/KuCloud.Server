@@ -23,9 +23,10 @@ public interface IObjectStorageService
     /// </summary>
     /// <param name="urlType">the url type</param>
     /// <param name="path">the path of the file on the ObjectStorage. if the <paramref name="path"/> ends with '/', it means it is a folder</param>
+    /// <param name="fileName"></param>
     /// <param name="cancellationToken"></param>
     /// <returns>the signal url, will return empty string if generation fails</returns>
-    Task<string> GenerateSignalUrl(SignalUrlType urlType, string path, CancellationToken cancellationToken = default);
+    Task<string> GenerateSignalUrl(SignalUrlType urlType, string path, string? fileName = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// create folder on given <paramref name="path"/>, and if it is existed, do nothing.

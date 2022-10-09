@@ -1,7 +1,9 @@
 using KuCloud.Data;
 using KuCloud.Infrastructure.Extensions;
+using KuCloud.ObjectStorage.QCloudCos;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 using System.Reflection;
 using System.Text.Json;
@@ -44,7 +46,9 @@ builder.Services.AddSwaggerGen(options =>
         Array.ForEach(xmlDocs, s => options.IncludeXmlComments(s));
     }
 });
-builder.Services.AddBasicServiceByLifeScope();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddQCloudCos(configuration);
 builder.Services.AddBasicOptions(configuration);
 builder.Services.AddJwtBearer();
 builder.Services.AddCorsSetting();
@@ -54,6 +58,8 @@ builder.Services.AddDbContext<KuCloudDbContext>(optionsBuilder =>
     optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud"),
         contextOptionsBuilder => contextOptionsBuilder.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 });
+
+builder.Services.AddBasicServiceByLifeScope();
 
 var app = builder.Build();
 
