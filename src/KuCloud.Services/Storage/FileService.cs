@@ -114,9 +114,9 @@ public class FileService : IFileService
 
     public async Task UploadDoneAsync(string uploadUrl, CancellationToken cancellationToken = default)
     {
-        if (_cache.TryGetValue(uploadUrl, out CacheUploadFile value))
+        if (_cache.TryGetValue(uploadUrl, out CacheUploadFile? value))
         {
-            var (folderPath, name) = SplitPath(value.Path);
+            var (folderPath, name) = SplitPath(value!.Path);
 
             Folder? folder = null;
             if (folderPath.TrimEnd(StorageNode.DELIMITER).IsNotNullOrWhiteSpace())
@@ -128,7 +128,7 @@ public class FileService : IFileService
             var file = new File(folder, name)
             {
                 StoragePath = value.CosPath,
-                UploadTime = DateTime.UtcNow
+                UploadTime = DateTime.UtcNow,
             };
             
             var info = await _objectStorageService.GetInfoAsync(value.CosPath, cancellationToken);

@@ -15,7 +15,7 @@ public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions
         _jwtOption = jwtOption.Value;
     }
 
-    public void Configure(string name, JwtBearerOptions options) => Configure(options);
+    public void Configure(string? name, JwtBearerOptions options) => Configure(options);
 
     public void Configure(JwtBearerOptions options)
     {

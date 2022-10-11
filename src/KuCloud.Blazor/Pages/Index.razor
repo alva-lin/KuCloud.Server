@@ -1,0 +1,16 @@
+﻿@page "/"
+@inject ModalService ModalService
+@inject IMessageService MessageService
+
+<h1>Hello, world!</h1>
+
+<Button Type="@ButtonType.Primary" OnClick="HelloClick">Hello World!</Button>
+
+@code {
+
+    private void HelloClick()
+    {
+        MessageService.Info("Hello");
+    }
+
+}

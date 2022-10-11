@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.dockerignore = .dockerignore
 		README.md = README.md
+		.circleci\config.yml = .circleci\config.yml
+		global.json = global.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0553411-CECF-4714-AEA9-624529DA9C64}"
@@ -31,6 +33,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.ObjectStorage.Abstract", "src\Infrastructure\ObjectStorage\KuCloud.ObjectStorage.Abstract\KuCloud.ObjectStorage.Abstract.csproj", "{38B7D858-CB46-4F34-9834-E1E6A374EB2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.ObjectStorage.QCloudCos", "src\Infrastructure\ObjectStorage\KuCloud.ObjectStorage.QCloudCos\KuCloud.ObjectStorage.QCloudCos.csproj", "{46604D3A-503D-472F-8665-BA2D6F706F76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KuCloud.Blazor", "src\KuCloud.Blazor\KuCloud.Blazor.csproj", "{49C366C9-4243-4A70-92B1-85A68B497EDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +70,10 @@ Global
 		{46604D3A-503D-472F-8665-BA2D6F706F76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46604D3A-503D-472F-8665-BA2D6F706F76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46604D3A-503D-472F-8665-BA2D6F706F76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49C366C9-4243-4A70-92B1-85A68B497EDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C366C9-4243-4A70-92B1-85A68B497EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C366C9-4243-4A70-92B1-85A68B497EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C366C9-4243-4A70-92B1-85A68B497EDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +88,7 @@ Global
 		{06F82E83-575B-4B04-BEB8-799B8A3DF894} = {E0553411-CECF-4714-AEA9-624529DA9C64}
 		{3D55AECF-536F-4216-BB80-118E797C01AC} = {E0553411-CECF-4714-AEA9-624529DA9C64}
 		{13F90A04-ABE0-4BBC-BA59-DD6080401075} = {E0553411-CECF-4714-AEA9-624529DA9C64}
+		{49C366C9-4243-4A70-92B1-85A68B497EDA} = {035DBB7D-1278-4E3C-94C3-63A1FA97F8C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2BBA3D9-B7C1-4CE0-8EE2-20596B0BE9FE}

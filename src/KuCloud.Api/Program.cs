@@ -55,7 +55,7 @@ builder.Services.AddCorsSetting();
 
 builder.Services.AddDbContext<KuCloudDbContext>(optionsBuilder =>
 {
-    optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud"),
+    optionsBuilder.UseNpgsql(configuration.GetConnectionString("KuCloud")!,
         contextOptionsBuilder => contextOptionsBuilder.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 });
 

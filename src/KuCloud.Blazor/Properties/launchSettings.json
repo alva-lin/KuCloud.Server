@@ -1,0 +1,26 @@
+{
+    "profiles": {
+        "KuCloud.Blazor": {
+            "commandName": "Project",
+            "dotnetRunMessages": true,
+            "launchBrowser": true,
+            "applicationUrl": "https://localhost:39001",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "Watch": {
+            "commandName": "Executable",
+            "executablePath": "dotnet",
+            "workingDirectory": "$(ProjectDir)",
+            "hotReloadEnabled": true,
+            "hotReloadProfile": "aspnetcore",
+            "commandLineArgs": "watch run",
+            "launchBrowser": false,
+            "applicationUrl": "https://localhost:39001",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
+    }
+}
