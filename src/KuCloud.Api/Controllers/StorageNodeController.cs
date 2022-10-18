@@ -31,7 +31,7 @@ public class StorageNodeController : BasicController
     /// <param name="folderService"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPut]
+    [HttpPost]
     public Task Create([FromBody] string path,
         [FromServices] IFolderService folderService,
         CancellationToken cancellationToken)
