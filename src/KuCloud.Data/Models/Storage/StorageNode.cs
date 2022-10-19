@@ -36,6 +36,11 @@ public abstract class StorageNode : BasicEntity<long>
     /// 父节点
     /// </summary>
     public Folder? Parent { get; set; }
+
+    /// <summary>
+    /// 上一次修改的时间
+    /// </summary>
+    public DateTime LastModifiedTime => ModifiedTime ?? CreatedTime;
     
     protected StorageNode() {}
 
