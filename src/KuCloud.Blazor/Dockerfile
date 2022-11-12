@@ -5,10 +5,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["src/KuCloud.Blazor/KuCloud.Blazor.csproj", "src/KuCloud.Blazor/"]
-RUN dotnet restore "src/KuCloud.Blazor/KuCloud.Blazor.csproj"
+COPY  ["src/", "."]
+#COPY ["src/KuCloud.Blazor/KuCloud.Blazor.csproj", "src/KuCloud.Blazor/"]
+RUN dotnet restore "KuCloud.Blazor/KuCloud.Blazor.csproj"
 COPY . .
-WORKDIR "/src/src/KuCloud.Blazor"
+WORKDIR "/src/KuCloud.Blazor"
 RUN dotnet build "KuCloud.Blazor.csproj" -c Release -o /app/build
 
 FROM build AS publish
