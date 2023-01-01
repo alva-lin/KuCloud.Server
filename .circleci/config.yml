@@ -22,6 +22,4 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - github-cli/setup:
-          token: GITHUB_TOKEN
       - github-cli/clone
